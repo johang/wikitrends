@@ -1,0 +1,16 @@
+<project name="Crunch" default="dist" basedir=".">
+	<target name="compile">
+		<mkdir dir="bin"/>
+		<javac includeAntRuntime="false" srcdir="src" destdir="bin"/>
+	</target>
+
+	<target name="dist" depends="compile">
+		<mkdir dir="dist"/>
+		<jar jarfile="dist/crunch.jar" basedir="bin"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="bin"/>
+		<delete dir="dist"/>
+	</target>
+</project>
