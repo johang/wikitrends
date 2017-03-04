@@ -220,7 +220,7 @@ function wikipedia_fetch_abstract($L, $P) {
 
 	// Return the best candidate
 
-	$candidate = array_shift(array_keys(array_filter($paragraphs)));
+	$candidate = @array_shift(array_keys(array_filter($paragraphs)));
 
 	return strlen($candidate) > 255 ?
 		(mb_substr($candidate, 0, 255, "utf-8") . "...") :
