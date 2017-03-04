@@ -21,6 +21,7 @@ def schedule(directory, intervals, dryrun, wait):
 	commands = [
 		"qsub",
 		"-N", "RANK-AND-RENDER",
+		"-l", "release=trusty",
 		"-l", "h_vmem=2G",
 		"-l", "hostname=!tools-exec-01",
 		"-q", "task",

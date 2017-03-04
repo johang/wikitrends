@@ -24,6 +24,7 @@ def schedule(directory, dumps, fake, wait):
 	command = [
 		"qsub",
 		"-N", "EXTRACT-OR-MERGE",
+		"-l", "release=trusty",
 		"-l", "h_vmem=2G",
 		"-q", "task",
 		"-tc", "2",

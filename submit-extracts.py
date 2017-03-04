@@ -29,6 +29,7 @@ def submit(directory, logs, dryrun, wait):
 	command = [
 		"qsub",
 		"-N", "EXTRACT-OR-MERGE",
+		"-l", "release=trusty",
 		"-l", "h_vmem=2G",
 		"-q", "task",
 		"-tc", "6",
