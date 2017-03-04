@@ -17,7 +17,7 @@ then
   ls -r1 $WIKITRENDS_EXTRACTS | optimize.py 0 $((1*N)) > $TMP/$N/a
   ls -r1 $WIKITRENDS_EXTRACTS | optimize.py $((1*N)) $((3*N)) > $TMP/$N/b
 
-  java -Xmx64m wikitrends.main.Rank \
+  java -Xms32m -Xmx128m wikitrends.main.Rank \
     $TMP/$N/a \
     $TMP/$N/b \
     $TMP/$N/up \

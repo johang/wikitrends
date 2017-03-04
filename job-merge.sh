@@ -12,7 +12,7 @@ set -o pipefail
 
 FILE=`mktemp --tmpdir=$WIKITRENDS_TMP merge-XXXXXX.gz`
 
-java -Xmx64m wikitrends.main.Merge \
+java -Xms32m -Xmx128m wikitrends.main.Merge \
 	$TMP/merge.gz \
 	$BUCKET/merge.gz \
 	$BUCKET/queue/*
