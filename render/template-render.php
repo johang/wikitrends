@@ -200,7 +200,7 @@ foreach($pages as $P)
 ?>
 				</ol>
 				<hr />
-				<p><small><i>Copyright &copy; <a href="http://johan.gunnarsson.name/">Johan Gunnarsson</a> (johan.gunnarsson@gmail.com), 2012. Last updated <?php echo date("r"); ?>. <a href="">About Wikitrends</a>.</i></small></p>
+				<p><small><i>Copyright &copy; <a href="http://johan.gunnarsson.name/">Johan Gunnarsson</a> (johan.gunnarsson@gmail.com), 2012. Last updated <?php echo date("r"); ?>. <a href="">About Wikitrends</a>. <a href="https://github.com/johang/wikitrends">Source code</a>.</i></small></p>
 				<p style="text-align: center;"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Wikitrends</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://toolserver.org/~johang/wikitrends" property="cc:attributionName" rel="cc:attributionURL">Johan Gunnarsson</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 Unported License</a>.</p>
 			</div>
 		</div>
