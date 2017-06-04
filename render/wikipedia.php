@@ -157,11 +157,18 @@ function wikipedia_get_information($page) {
 }
 
 function wikipedia_fetch_abstract($L, $P) {
-	// Fetch page
-
-	$url = sprintf("http://%s.wikipedia.org/wiki/%s", $L, $P);
-
-	$ch = curl_init($url);
+	$ch = curl_init(sprintf(
+		"http://%s.wikipedia.org/w/api.php?" .
+			"action=query&" .
+			"titles=%s&" .
+			"redirects&" .
+			"prop=extracts&" .
+			"exsentences=5&" .
+			"exintro=1&" .
+			"explaintext=1&" .
+			"exsectionformat=plain&" .
+			"format=php",
+		$L, $P));
 
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 	curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
@@ -179,52 +186,31 @@ function wikipedia_fetch_abstract($L, $P) {
 		$data = curl_exec($ch);
 	}
 
+	if($data === FALSE) {
+		die("CURL error 2 (" . curl_errno($ch) . "): " . curl_error($ch) . "\n");
+	}
+
 	curl_close($ch);
 
-	if($data === FALSE)
-		return "";
+	$query = unserialize($data);
 
-	// Parse page
+	if(isset($query["query"]["pages"])) {
+		foreach($query["query"]["pages"] as $id => $n) {
+			if($id <= 0)
+				continue;
 
-	$document = new DOMDocument("1.0", "utf-8");
+			if(isset($n["missing"]))
+				continue;
 
-	// http://www.php.net/manual/en/domdocument.loadhtml.php#74777
-	$data = mb_convert_encoding($data, "HTML-ENTITIES", "utf-8"); 
+			$candidate = preg_replace("/\s+/", " ", $n["extract"]);
 
-	if(@!$document->loadHTML($data)) {
-		echo "failed to parse html: $url\n";
-		return NULL;
+			return strlen($candidate) > 255 ?
+				(mb_substr($candidate, 0, 255, "utf-8") . "...") :
+				$candidate;
+		}
 	}
 
-	// Rank paragraphs
-
-	$paragraphs = array();
-
-	$i = 0;
-
-	foreach($document->getElementsByTagName("p") as $p) {
-		$candidate = trim(preg_replace(
-			"/\[\d+\]/",
-			"",
-			$p->textContent));
-
-		$b = ($p->getElementsByTagName("b")->length > 0) ? 1 : 0;
-
-		$paragraphs[$candidate] =
-			($p->getElementsByTagName("b")->length > 0) *
-			pow(0.95, $i++) *
-			(strlen($candidate) > 50 ? 1 : 0);
-	}
-
-	arsort($paragraphs);
-
-	// Return the best candidate
-
-	$candidate = @array_shift(array_keys(array_filter($paragraphs)));
-
-	return strlen($candidate) > 255 ?
-		(mb_substr($candidate, 0, 255, "utf-8") . "...") :
-		$candidate;
+	return "";
 }
 
 function wikipedia_get_abstract($page) {
